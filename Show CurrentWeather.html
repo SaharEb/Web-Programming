@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <button type="button" onclick="loadDoc()">Show Current Weather</button>
+    <br><br>
+    <p id="desc"></p>
+    <p id="humidity"></p>
+    <p id="temp"></p>
+    <p id="windSpeed"></p>
+
+    <script>
+        function loadDoc() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=Toronto&appid=5b6a426b67c686c4835fd060a7d3208c&mode=xml", true);
+            xhttp.send();
+        }
+        function myFunction(xhttp) {
+
+            var xmlDoc = xhttp.responseXML;
+
+            console.log(xmlDoc);
+            var weather_des = xmlDoc.getElementsByTagName("clouds");
+            var humidity = xmlDoc.getElementsByTagName("humidity");
+            var temp = xmlDoc.getElementsByTagName("temperature");
+            var wind_speed = xmlDoc.getElementsByTagName("speed");
+
+            document.getElementById("desc").innerHTML = "Weather Description: " + weather_des[0].getAttribute("name");;
+            document.getElementById("humidity").innerHTML = "Humidity: " + humidity[0].getAttribute("value");
+            document.getElementById("temp").innerHTML = "Tempeture: " + temp[0].getAttribute("value");
+            document.getElementById("windSpeed").innerHTML = "Wind Speed: " + wind_speed[0].getAttribute("value");
+        }
+    </script>
+
+</body>
+
+</html>
